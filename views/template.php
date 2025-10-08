@@ -38,9 +38,9 @@ Obtenemos el estado del servidor
 =============================================*/
 #$freeDisk = round(disk_free_space("/") / 1024 / 1024 / 1024);
 #$totalDisk = round(disk_total_space("/") / 1024 / 1024 / 1024);
-$utilizadoDisk = $totalDisk - $freeDisk;
-$perncentDiskFree = round(($freeDisk / $totalDisk) * 100);
-$perncentDiskUtil = round(($utilizadoDisk / $totalDisk) * 100);
+#$utilizadoDisk = $totalDisk - $freeDisk;
+#$perncentDiskFree = round(($freeDisk / $totalDisk) * 100);
+#$perncentDiskUtil = round(($utilizadoDisk / $totalDisk) * 100);
 
 /*=============================================
 Obtenemos las configuraciones iniciales
