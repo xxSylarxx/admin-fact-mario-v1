@@ -12,7 +12,7 @@ class SettingsController
     /*=============================================
     Mostrar datos de las configuraciones
     =============================================*/
-    public static function settings()
+    /* public static function settings()
     {
 
         $url = "configuraciones";
@@ -34,6 +34,30 @@ class SettingsController
 
         return $resultado;
 
+    } */
+    public static function settings()
+    {
+        $url = "configuraciones";
+        $method = "GET";
+        $fields = array();
+        $token = TemplateController::tokenSet();
+
+        $response = CurlController::requestSunat($url, $method, $fields, $token);
+        
+        if (
+            $response !== null &&
+            isset($response->response) &&
+            isset($response->response->success) &&
+            $response->response->success == true
+        ) {
+
+            $resultado = $response->response->data[0];
+        } else {
+
+            $resultado = "No encontrado";
+        }
+
+        return $resultado;
     }
 
     /*=============================================
@@ -64,7 +88,6 @@ class SettingsController
                         fncSweetAlert("close", "", "");
                         fncSweetAlert("success", "' . $response->response->data->comment . '", "/settings/general");
                     </script>';
-
             } else {
 
                 echo '<script>
@@ -73,11 +96,8 @@ class SettingsController
                         fncSweetAlert("close", "", "");
                         fncNotie(3, "Failed to edit registry");
                     </script>';
-
             }
-
         }
-
     }
 
     /*=============================================
@@ -108,7 +128,6 @@ class SettingsController
                         fncSweetAlert("close", "", "");
                         fncSweetAlert("success", "' . $response->response->data->comment . '", "/settings/server");
                     </script>';
-
             } else {
 
                 echo '<script>
@@ -117,11 +136,8 @@ class SettingsController
                         fncSweetAlert("close", "", "");
                         fncNotie(3, "Failed to edit registry");
                     </script>';
-
             }
-
         }
-
     }
 
     /*=============================================
@@ -189,11 +205,9 @@ class SettingsController
                     $dataFielUp = json_encode($fieldsUp);
 
                     $saveImageEmpr = CurlController::requestSunat($urlUp, $methodUp, $dataFielUp, $token)->response->file;
-
                 } else {
 
                     $saveImageEmpr = $response->response->data[0]->logo_sistema_configuracion;
-
                 }
 
                 /*=============================================
@@ -221,7 +235,6 @@ class SettingsController
                             fncSweetAlert("close", "", "");
                             fncSweetAlert("success", "' . $response->response->data->comment . '", "/settings/logo");
                         </script>';
-
                 } else {
 
                     echo '<script>
@@ -230,9 +243,7 @@ class SettingsController
                             fncSweetAlert("close", "", "");
                             fncNotie(3, "Failed to edit registry");
                         </script>';
-
                 }
-
             } else {
 
                 echo '<script>
@@ -241,11 +252,8 @@ class SettingsController
                         fncSweetAlert("close", "", "");
                         fncNotie(3, "Failed to edit registry");
                     </script>';
-
             }
-
         }
-
     }
 
     /*=============================================
@@ -313,11 +321,9 @@ class SettingsController
                     $dataFielUp = json_encode($fieldsUp);
 
                     $saveImageEmpr = CurlController::requestSunat($urlUp, $methodUp, $dataFielUp, $token)->response->file;
-
                 } else {
 
                     $saveImageEmpr = $response->response->data[0]->favicon_sistema_configuracion;
-
                 }
 
                 /*=============================================
@@ -345,7 +351,6 @@ class SettingsController
                             fncSweetAlert("close", "", "");
                             fncSweetAlert("success", "' . $response->response->data->comment . '", "/settings/favicon");
                         </script>';
-
                 } else {
 
                     echo '<script>
@@ -354,9 +359,7 @@ class SettingsController
                             fncSweetAlert("close", "", "");
                             fncNotie(3, "Failed to edit registry");
                         </script>';
-
                 }
-
             } else {
 
                 echo '<script>
@@ -365,11 +368,8 @@ class SettingsController
                         fncSweetAlert("close", "", "");
                         fncNotie(3, "Failed to edit registry");
                     </script>';
-
             }
-
         }
-
     }
 
     /*=============================================
@@ -436,7 +436,6 @@ class SettingsController
                             fncSweetAlert("close", "", "");
                             fncSweetAlert("success", "' . $response->response->data->comment . '", "/settings/gateway");
                         </script>';
-
                 } else {
 
                     echo '<script>
@@ -445,9 +444,7 @@ class SettingsController
                             fncSweetAlert("close", "", "");
                             fncNotie(3, "Failed to edit registry");
                         </script>';
-
                 }
-
             } else {
 
                 echo '<script>
@@ -456,11 +453,7 @@ class SettingsController
                         fncSweetAlert("close", "", "");
                         fncNotie(3, "Failed to edit registry");
                     </script>';
-
             }
-
         }
-
     }
-
 }

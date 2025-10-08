@@ -261,13 +261,26 @@ if (!empty($_SESSION["empresa"])) {
     <meta name="description" content="Facturacion electronica">
 
     <?php
-
+/* 
 $keywords = "";
 
 foreach (json_decode($dataSett->keywords_configuracion, true) as $key => $value) {
 
     $keywords .= $value . ", ";
 
+} */
+$keywords = "";
+$keywordsData = $dataSett->keywords_configuracion ?? '';
+
+if (!empty($keywordsData)) {
+    $keywordsArray = json_decode($keywordsData, true);
+    
+    if (json_last_error() === JSON_ERROR_NONE && is_array($keywordsArray)) {
+        foreach ($keywordsArray as $key => $value) {
+            $keywords .= $value . ", ";
+        }
+        $keywords = rtrim($keywords, ", ");
+    }
 }
 
 $keywords = substr($keywords, 0, -2);
