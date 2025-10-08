@@ -11,7 +11,8 @@ Mostrar errores
 =============================================*/
 ini_set('display_errors', 1);
 ini_set("log_errors", 1);
-ini_set("error_log", "D:/xamppNew/htdocs/scriptApi/php_error_log");
+// ini_set("error_log", "D:/xamppNew/htdocs/scriptApi/php_error_log"); // Solo local
+ini_set("error_log", "php_error_log"); // Para servidor
 
 /*=============================================
 CORS

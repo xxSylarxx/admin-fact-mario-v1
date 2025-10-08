@@ -36,7 +36,7 @@ class TemplateController
     public static function srcImg()
     {
 
-        return "http://3.20.235.212/api_sis_venta_sunat/documents/";
+        return "http://front.sistemal.local/documents/";
 
     }
 
