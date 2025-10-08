@@ -48,7 +48,7 @@ if (empty($_SESSION["empresa"])):
     $fields = json_encode($data);
     $token = 'e0562bc98c5c88dbc900f117ecf863b0b7e9ba7ab2747fd42c855cfbc5d915b1';
 
-    $responseExchange = CurlController::requestSunat($url, $method, $fields, $token);
+   /*  $responseExchange = CurlController::requestSunat($url, $method, $fields, $token);
 
     if ($responseExchange->response->success == true) {
 
@@ -60,7 +60,20 @@ if (empty($_SESSION["empresa"])):
         $tC = 1;
         $tv = 1;
 
-    }
+    } */
+   $responseExchange = CurlController::requestSunat($url, $method, $fields, $token);
+
+// Validar que la respuesta no sea null antes de usarla
+if ($responseExchange !== null && isset($responseExchange->response) && $responseExchange->response->success == true) {
+    $tC = $responseExchange->response->data->compra;
+    $tV = $responseExchange->response->data->venta;
+} else {
+    // Manejar el error - valores por defecto o mensaje de error
+    $tC = 1;
+    $tV = 1;
+    // Opcional: registrar el error o mostrar mensaje al usuario
+    error_log("Error al consultar tipo de cambio de SUNAT");
+}
     
 ?>
 
@@ -75,7 +88,7 @@ if (empty($_SESSION["empresa"])):
 
                     <div class="col-md-12">
 
-                        <form method="post" class="needs-validation" novalidate onsubmit="return checkout('new')">
+                        <form method="post" class="" novalidate onsubmit="return proceedToNext()">
 
                             <input type="hidden" id="idUser" value="<?php echo $_SESSION["user"]->id_usuario ?>">
                             
@@ -188,7 +201,7 @@ if (empty($_SESSION["empresa"])):
 
                                                             </div>
 
-                                                            <button type="submit" class="btn btn-primary mt-4">Continuar</button>
+                                                            <button type="submit" class="btn btn-primary mt-4">Continuar sin Pago</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -252,3 +265,28 @@ if (empty($_SESSION["empresa"])):
 <?php endif ?>
 
 <script src="views/assets/custom/forms/forms.js"></script>
+
+<script>
+/*=============================================
+Función para proceder sin validar la compra
+=============================================*/
+function proceedToNext() {
+    // Verificar que se haya seleccionado un plan
+    var planSelected = document.getElementById('plan-tenant').value;
+    
+    if (planSelected == '0' || planSelected == '') {
+        fncNotif('error', 'Por favor selecciona un plan antes de continuar');
+        return false;
+    }
+    
+    // Almacenar datos en sessionStorage para usar en businesses
+    sessionStorage.setItem('skipPayment', 'true');
+    sessionStorage.setItem('selectedPlan', planSelected);
+    sessionStorage.setItem('userId', document.getElementById('idUser').value);
+    
+    // Redirigir directamente a businesses
+    window.location.href = 'businesses';
+    
+    return false; // Prevenir el envío del formulario
+}
+</script>

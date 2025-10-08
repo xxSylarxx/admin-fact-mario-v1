@@ -633,7 +633,7 @@ if (isset($_SESSION["user"]) && empty($_SESSION["empresa"]) && empty($_SESSION["
                     <!-- CONTENTS -->
                     <section id="content" class="content">
 
-                        <?php include "pages/" . $routesArray[1] . "/" . $routesArray[1] . ".php"?>
+                        <?php include "views/pages/" . $routesArray[1] . "/" . $routesArray[1] . ".php"?>
                         <!-- FOOTER -->
                         <?php include "views/modules/footer.php"?>
                         <!-- END - FOOTER -->

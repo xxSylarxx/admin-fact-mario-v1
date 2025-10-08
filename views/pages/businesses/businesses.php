@@ -10,6 +10,14 @@ require_once "controllers/tenants.controller.php";
 
 if (empty($_SESSION["empresa"])):
 
+    /* Verificar si es un proceso sin pago */
+    echo '<script>
+        if (sessionStorage.getItem("skipPayment") === "true") {
+            // Es un proceso sin pago, proceder directamente al formulario
+            console.log("Proceso sin pago detectado");
+        }
+    </script>';
+
     /* Se valida que venga un dato */
     if (isset($routesArray[2])) {
 
@@ -18,42 +26,52 @@ if (empty($_SESSION["empresa"])):
         /* Se valida que la sesion de usuario no este caduco */
         if ($security[1] == $_SESSION["user"]->token_usuario) {
 
-            $select = "*";
-
-            $url = "ventas?select=" . $select . "&linkTo=trans_venta,id_usuario_venta&equalTo=" . $security[2] . "," . $security[3];
-            $method = "GET";
-            $fields = array();
-            $token = TemplateController::tokenSet();
-
-            $response = CurlController::requestSunat($url, $method, $fields, $token);
-
-            if ($response->response->status == 200) {
-
-                $ventas = $response->response->data[0];
-
-                /* Se valida que el ID de venta no tenga empresa relacionada */
-                if($ventas->id_empresa_venta != 0) {
-
-                    echo '<script>
-                            fncSweetAlert("error", "This sale id is already associated with a company, please make another purchase", "/cart");
-                        </script>';
-
-                }
-
-                if($security[0] != $ventas->id_plan_venta) {
-
-                    echo '<script>
-                            fncSweetAlert("error", "The sales id entered does not correspond to the selected plan", "/cart");
-                        </script>';
-
-                }
-
+            // Para procesos sin pago (mock), verificar si el ID de venta es un timestamp
+            if (strlen($security[2]) > 10 && is_numeric($security[2])) {
+                // Es un ID mock generado por timestamp, proceder sin validar en BD
+                $ventas = new stdClass();
+                $ventas->id_plan_venta = $security[0];
+                $ventas->id_empresa_venta = 0; // Sin empresa asociada
+                $ventas->id_usuario_venta = $security[3];
             } else {
+                // Es un ID real, validar en base de datos
+                $select = "*";
 
-                echo '<script>
-                        window.location = "/cart";
-                    </script>';
+                $url = "ventas?select=" . $select . "&linkTo=trans_venta,id_usuario_venta&equalTo=" . $security[2] . "," . $security[3];
+                $method = "GET";
+                $fields = array();
+                $token = TemplateController::tokenSet();
 
+                $response = CurlController::requestSunat($url, $method, $fields, $token);
+
+                if ($response->response->status == 200) {
+
+                    $ventas = $response->response->data[0];
+
+                    /* Se valida que el ID de venta no tenga empresa relacionada */
+                    if($ventas->id_empresa_venta != 0) {
+
+                        echo '<script>
+                                fncSweetAlert("error", "This sale id is already associated with a company, please make another purchase", "/cart");
+                            </script>';
+
+                    }
+
+                    if($security[0] != $ventas->id_plan_venta) {
+
+                        echo '<script>
+                                fncSweetAlert("error", "The sales id entered does not correspond to the selected plan", "/cart");
+                            </script>';
+
+                    }
+
+                } else {
+
+                    echo '<script>
+                            window.location = "/cart";
+                        </script>';
+
+                }
             }
 
         } else {
@@ -65,10 +83,18 @@ if (empty($_SESSION["empresa"])):
         }
 
     } else {
-
+        
+        /* Verificar si es proceso sin pago */
         echo '<script>
+            if (sessionStorage.getItem("skipPayment") !== "true") {
                 window.location = "/cart";
-            </script>';
+            } else {
+                // Limpiar sessionStorage después de usar
+                sessionStorage.removeItem("skipPayment");
+                sessionStorage.removeItem("selectedPlan");
+                sessionStorage.removeItem("userId");
+            }
+        </script>';
 
     }
 
