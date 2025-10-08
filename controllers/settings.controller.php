@@ -71,7 +71,8 @@ class SettingsController
                 'nombre_sistema_configuracion' => 'Sistema Facturación',
                 'nombre_empresa_configuracion' => 'Mi Empresa',
                 'descripcion_configuracion' => 'Sistema de facturación electrónica',
-                'keywords_configuracion' => '[]'
+                'keywords_configuracion' => '[]',
+                'web_empresa_configuracion' => 'https://miempresa.com',
             ];
         }
 
@@ -81,7 +82,8 @@ class SettingsController
             'nombre_sistema_configuracion' => 'Sistema Facturación',
             'nombre_empresa_configuracion' => 'Mi Empresa',
             'descripcion_configuracion' => 'Sistema de facturación electrónica',
-            'keywords_configuracion' => '[]'
+            'keywords_configuracion' => '[]',
+            'web_empresa_configuracion' => 'https://miempresa.com'
         ], (array)$settings);
     }
 
