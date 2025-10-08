@@ -43,7 +43,7 @@ class SettingsController
         $token = TemplateController::tokenSet();
 
         $response = CurlController::requestSunat($url, $method, $fields, $token);
-        
+
         if (
             $response !== null &&
             isset($response->response) &&
@@ -58,6 +58,31 @@ class SettingsController
         }
 
         return $resultado;
+    }
+    // ajustes para prueba en servidor
+    public static function getSafeSettings()
+    {
+        $settings = self::settings();
+
+        // Si es string (error), retornar objeto por defecto
+        if (is_string($settings)) {
+            return (object)[
+                'favicon_sistema_configuracion' => 'default.ico',
+                'nombre_sistema_configuracion' => 'Sistema Facturación',
+                'nombre_empresa_configuracion' => 'Mi Empresa',
+                'descripcion_configuracion' => 'Sistema de facturación electrónica',
+                'keywords_configuracion' => '[]'
+            ];
+        }
+
+        // Si es objeto pero faltan propiedades, completar con valores por defecto
+        return (object)array_merge([
+            'favicon_sistema_configuracion' => 'default.ico',
+            'nombre_sistema_configuracion' => 'Sistema Facturación',
+            'nombre_empresa_configuracion' => 'Mi Empresa',
+            'descripcion_configuracion' => 'Sistema de facturación electrónica',
+            'keywords_configuracion' => '[]'
+        ], (array)$settings);
     }
 
     /*=============================================

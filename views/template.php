@@ -48,7 +48,8 @@ $perncentDiskUtil = round(($utilizadoDisk / $totalDisk) * 100);
 Obtenemos las configuraciones iniciales
 =============================================*/
 require_once "controllers/settings.controller.php";
-$dataSett = SettingsController::settings();
+/* $dataSett = SettingsController::settings(); */
+$dataSett = SettingsController::getSafeSettings();
 
 /*=============================================
 Obtenemos el icono de la empresa o sistema
