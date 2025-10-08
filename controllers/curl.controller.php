@@ -15,7 +15,8 @@ class CurlController
     public static function api()
     {
 
-        return "http://api.sistema.local/";
+        /* return "http://api.sistema.local/"; */
+        return "http://3.20.235.212/api_sis_venta_sunat/";
     }
 
     /*=============================================
@@ -39,7 +40,8 @@ class CurlController
         }
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://api.sistema.local/' . $url,
+            /* CURLOPT_URL => 'http://api.sistema.local/' . $url, */
+            CURLOPT_URL => 'http://3.20.235.212/api_sis_venta_sunat/' . $url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
