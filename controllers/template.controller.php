@@ -15,7 +15,8 @@ class TemplateController
     public static function path()
     {
 
-        return "http://front.sistemal.local/";
+        /* return "http://front.sistemal.local/"; */
+        return "http://3.20.235.212/admin-fact-mario-v1/";
 
     }
 
@@ -35,7 +36,7 @@ class TemplateController
     public static function srcImg()
     {
 
-        return "http://api.sistema.local/documents/";
+        return "http://3.20.235.212/api_sis_venta_sunat/documents/";
 
     }
 
